@@ -9,6 +9,3 @@ class CardViewSet(viewsets.ModelViewSet):
         permissions.AllowAny
     ]
     serializer_class = CardSerializer
-
-    def perform_create(self, serializer):
-        serializer.save(owner=self.user)

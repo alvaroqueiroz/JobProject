@@ -27,7 +27,7 @@ export class Header extends Component {
           </button>
         </li>
         <li className="nav-item">
-          <Link to="/Cardslist" className="nav-link">
+          <Link to="/" className="nav-link">
             Pesquisar Cartões
           </Link>
         </li>

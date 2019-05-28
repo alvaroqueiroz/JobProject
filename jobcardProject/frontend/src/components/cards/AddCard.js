@@ -9,6 +9,7 @@ export class Cardform extends Component {
         email: '',
         service: '',
         description: '',
+        image: ''
     }
 
     static propTypes = {
@@ -19,25 +20,26 @@ export class Cardform extends Component {
 
     onSubmit = e => {
       e.preventDefault();
-      const { name, email, service, description } = this.state;
-      const card = { name, email, service, description };
+      const { name, email, service, description, image } = this.state;
+      const card = { name, email, service, description, image };
       this.props.addCard(card);
       this.setState({
         name: '',
         email: '',
         service: '',
         description: '',
+        image: ''
       });
     };
 
     render() {
-        const { name, email, service, description} = this.state;
+        const { name, email, service, description, image} = this.state;
         return (
             <div className="card card-body mt-4 mb-4">
-                <h2>Add Card</h2>
+                <h2>Adicionar Cartão</h2>
                 <form onSubmit={this.onSubmit}>
                 <div className="form-group">
-                    <label>Name</label>
+                    <label>Nome</label>
                     <input
                     className="form-control"
                     type="text"
@@ -57,7 +59,7 @@ export class Cardform extends Component {
                     />
                 </div>
                 <div className="form-group">
-                    <label>Service</label>
+                    <label>Serviço</label>
                     <textarea
                     className="form-control"
                     type="text"
@@ -67,13 +69,23 @@ export class Cardform extends Component {
                     />
                 </div>
                 <div className="form-group">
-                    <label>Description</label>
+                    <label>Descrição</label>
                     <textarea
                     className="form-control"
                     type="text"
                     name="description"
                     onChange={this.onChange}
                     value={description}
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Imagem</label>
+                    <input
+                    className="form-control-file"
+                    type="file"
+                    name="image"
+                    onChange={this.onChange}
+                    value={image}
                     />
                 </div>
                 <div className="form-group">
