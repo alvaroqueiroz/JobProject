@@ -1,17 +1,22 @@
 import axios from 'axios'
-import { createMessage } from './messages'
+import { createMessage, returnErrors  } from './messages'
+import { tokenConfig } from "./auth";
 
-import { GET_CARDS, DELETE_CARD, ADD_CARD, GET_ERRORS } from './types'
+import { GET_CARDS, DELETE_CARD, ADD_CARD } from './types'
 
 
-export const getCards = () => dispatch => {
-    axios.get('/api/CardsApp/')
+export const getCards = () => (dispatch, getState) => {
+    axios
+    .get('/api/CardsApp/', tokenConfig(getState))
     .then(res => {
         dispatch({
             type: GET_CARDS,
             payload: res.data
         });
-    }).catch(err => console.log(err));
+    })
+    .catch(err =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
 };
 
 export const deleteCard = (id) => dispatch => {
@@ -25,22 +30,16 @@ export const deleteCard = (id) => dispatch => {
     }).catch(err => console.log(err));
 };
 
-export const addCard = (card) => dispatch => {
-    axios.post('/api/CardsApp/', card)
-    .then(res => {
-        dispatch(createMessage({ addCard: "Card Added" }));
-        dispatch({
-            type: ADD_CARD,
-            payload: res.data
-        });
-    }).catch(err => {
-        const erros = {
-            msg: err.response.data,
-            status: err.response.status
-        };
-        dispatch({
-            type: GET_ERRORS,
-            payload: erros
-        });
-    });
+export const addCard = card => (dispatch, getState) => {
+    axios
+        .post('/api/CardsApp/', card, tokenConfig(getState))
+        .then(res => {
+            dispatch(createMessage({ addCard: "Card Added" }));
+            dispatch({
+                type: ADD_CARD,
+                payload: res.data
+            });
+        })
+        .catch(err => 
+            dispatch(returnErrors(err.response.data, err.response.status)));
 };

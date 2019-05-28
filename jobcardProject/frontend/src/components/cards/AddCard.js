@@ -10,20 +10,26 @@ export class Cardform extends Component {
         service: '',
         description: '',
         image: ''
-    }
+    };
 
     static propTypes = {
         addCard: PropTypes.func.isRequired
       };
 
     onChange = e => this.setState({ [e.target.name]: e.target.value });
+    onChangeUpload = e => this.setState({ image: e.target.files[0]});
 
     onSubmit = e => {
-      e.preventDefault();
-      const { name, email, service, description, image } = this.state;
-      const card = { name, email, service, description, image };
-      this.props.addCard(card);
-      this.setState({
+        console.log(this.state);
+        let card = new FormData();
+        card.append('name', this.state.title);
+        card.append('email', this.state.email);
+        card.append('service', this.state.service);
+        card.append('description', this.state.description);
+        card.append('image', this.state.image, this.state.image.name);
+        console.log(this.state.image)
+        this.props.addCard(card);
+        this.setState({
         name: '',
         email: '',
         service: '',
@@ -83,9 +89,11 @@ export class Cardform extends Component {
                     <input
                     className="form-control-file"
                     type="file"
+                    multiple={false}
                     name="image"
-                    onChange={this.onChange}
-                    value={image}
+                    id="image"
+                    accept="image/png, image/jpeg"
+                    onChange={this.onChangeUpload}
                     />
                 </div>
                 <div className="form-group">

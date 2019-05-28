@@ -9,5 +9,5 @@ class Card(models.Model):
     time_created = models.DateTimeField(auto_now_add=True)
     description = models.CharField(max_length=200)
     owner = models.ForeignKey(User, related_name = "Cardlist", on_delete= models.CASCADE, null = True)
-    image = models.ImageField(upload_to = 'images', null = True)
+    image = models.ImageField(upload_to = 'images')
 
